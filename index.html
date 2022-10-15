@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="container">
+    
+    <!-- //!오픈페이지 -->
+    <article class="start">
+      <h1 class="mt-5 text-center">나랑 꼭 닮은 세렝게티 동물은?</h1>
+      <button type="button" class="btn btn-danger mt-5" onclick="start();">
+        테스트 시작하기
+      </button>
+    </article>
+
+    <!-- //!문제페이지 -->
+      <article class="question">
+          <!-- //!프로그레시브바 -->
+          <div class="progress mt-5">
+            <div
+              class="progress-bar" style="width: calc(100 / 12 * 1%)" role="progressbar">
+              진행상황
+            </div>
+          </div>
+        <!-- //!문제내용 -->
+        <h2 id="title" class="text-center mt-5">문제</h2>
+        <input id="type" type="hidden" value="EI" />
+        <button id="A" type="button" class="btn btn-info mt-5">버튼ㄱ</button>
+        <button id="B" type="button" class="btn btn-info mt-5">버튼ㄴ</button>
+      </article>
+
+    <!-- //!결과페이지 -->
+    <article class="result">
+      <img id="img" class="rounded-circle mt-5" src="alpaca.jpg" alt="animal" />
+      <h2 id="animal" class="text-center mt-5">동물이름</h2>
+      <h3 id="explain" class="text-center mt-5">설명</h3>
+    </article>
+
+<!-- //!버튼선택결과 저장되는 인풋태그 -->
+    <input type="hidden" id="EI" value="0" />
+    <input type="hidden" id="SN" value="0" />
+    <input type="hidden" id="TF" value="0" />
+    <input type="hidden" id="JP" value="0" />
+    
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+      crossorigin="anonymous"
+    ></script>
+
+    
+    <script>
+      var num = 1;
+
+      var q = {
+        1: { title: "문제1번", type: "EI", A: "E", B: "I" },
+        2: { title: "문제2번", type: "EI", A: "E", B: "I" },
+        3: { title: "문제3번", type: "EI", A: "E", B: "I" },
+        4: { title: "문제4번", type: "SN", A: "S", B: "N" },
+        5: { title: "문제5번", type: "SN", A: "S", B: "N" },
+        6: { title: "문제6번", type: "SN", A: "S", B: "N" },
+        7: { title: "문제7번", type: "TF", A: "T", B: "F" },
+        8: { title: "문제8번", type: "TF", A: "T", B: "F" },
+        9: { title: "문제9번", type: "TF", A: "T", B: "F" },
+        10: { title: "문제10번", type: "JP", A: "J", B: "P" },
+        11: { title: "문제11번", type: "JP", A: "J", B: "P" },
+        12: { title: "문제12번", type: "JP", A: "J", B: "P" },
+      };
+
+      var result = {
+        "INFJ" : {"animal":"알파카" , "explain":"알파카 설명...","img":"alpaca.jpg"},
+        "ENFJ" : {"animal":"사자" , "explain":"사자 설명...","img":""},
+        "ENTP" : {"animal":"돌고래" , "explain":"돌고래 설명...","img":""},
+
+    }
+      function start() {
+        $(".start").hide();
+        $(".question").show();
+        next();
+      }
+
+      $("#A").click(function () {
+        var type = $("#type").val();
+        var preValue = $("#" + type).val();
+        $("#" + type).val(parseInt(preValue) + 1);
+        next();
+      });
+
+      $("#B").click(function () {
+        next();
+      });
+
+      function next() {
+        if (num === 13) {
+          $(".question").hide();
+          $(".result").show();
+          //
+          var mbti = "";
+          $("#EI").val() < 2 ? (mbti += "I") : (mbti += "E");
+          $("#SN").val() < 2 ? (mbti += "N") : (mbti += "S");
+          $("#TF").val() < 2 ? (mbti += "F") : (mbti += "T");
+          $("#JP").val() < 2 ? (mbti += "P") : (mbti += "J");
+          alert(mbti);
+          $("#img").attr("src",result[mbti]["img"]);
+          $("#animal").html(result[mbti]["animal"]);
+          $("#explain").html(result[mbti]["explain"]);
+          //
+        } else {
+          $(".progress-bar").attr("style","width: calc(100 / 12 * " +num + "%)");
+          //html 메소드는 화면에 선택된 html 을 변환해준다
+          $("#title").html(q[num]["title"]);
+          $("#type").val(q[num]["type"]);
+          $("#A").html(q[num]["A"]);
+          $("#B").html(q[num]["B"]);
+          num++; //1번문제클릭후, 2번 문제로 넘어가기
+        }
+      }
+    </script>
+  </body>
+</html>
